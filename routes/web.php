@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\IndexController as AuthIndexController;
 use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\Auth\RegisterController as AuthRegisterController;
 use App\Http\Controllers\DiscoveryController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,8 @@ Route::get('/auth/logout', [AuthIndexController::class, 'logout'])->middleware('
 
 // Discovery
 Route::get('/discovery', [DiscoveryController::class, 'index'])->middleware('auth')->name('discovery.index');
+
+// Admin
+Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::resource('users', UserController::class);
+});

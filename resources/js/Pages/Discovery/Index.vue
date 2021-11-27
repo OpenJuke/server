@@ -1,12 +1,18 @@
 <template>
-  <div>
-      <h1>Discovery -> Index</h1>
-      <p>Hello World</p>
-  </div>
+    <div>
+        <PageHeader title="Discovery"></PageHeader>
+
+        <p>Hello World</p>
+    </div>
 </template>
 
 <script>
+import PageHeader from '@/Components/Common/PageHeader';
+
 export default {
-    name: 'DiscoveryIndex'
+    name: 'DiscoveryIndex',
+    components: {
+        PageHeader,
+    }
 }
 </script>

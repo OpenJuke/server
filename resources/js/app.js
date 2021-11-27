@@ -3,11 +3,18 @@ require('./bootstrap');
 import Vue from 'vue';
 import { createInertiaApp } from '@inertiajs/inertia-vue';
 import { InertiaProgress } from '@inertiajs/progress';
+import VueMoment from 'vue-moment';
 
 import AppLayout from './App.vue';
 
-InertiaProgress.init();
+InertiaProgress.init({
+    color: '#FC3BB5',
+    showSpinner: true
+});
+
 Vue.prototype.$route = route;
+
+Vue.use(VueMoment);
 
 createInertiaApp({
     resolve: name => {

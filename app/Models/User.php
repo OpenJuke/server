@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Track;
+use App\Models\Track;
+use App\Models\Playlist;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,7 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
         'avatar',
@@ -51,6 +52,11 @@ class User extends Authenticatable
 
     public function liked_tracks()
     {
-        return $this->belongsToMany(Track::class);
+        return $this->belongsToMany(Track::class, 'user_liked_track');
+    }
+
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class);
     }
 }

@@ -1,11 +1,7 @@
 <template>
     <div class="app">
-        <aside>
-            <h1>OpenJuke</h1>
-            <nav>
-                <Link :href="$route('discovery.index')">DiscoveryIndex</Link>
-            </nav>
-        </aside>
+        <PageSidebar />
+
         <main>
             <slot />
         </main>
@@ -13,11 +9,11 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue'
+import PageSidebar from '@/Components/Common/PageSidebar';
 
 export default {
     components: {
-        Link,
+        PageSidebar,
     },
     computed: {
         user() {
@@ -36,7 +32,8 @@ export default {
     grid-template-columns: 300px 1fr;
 
     & aside {
-        background: #fff;
+        background: #111111;
+        border-right: 1px solid #222222;
     }
 }
 </style>
