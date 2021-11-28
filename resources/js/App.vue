@@ -1,6 +1,8 @@
 <template>
     <div class="app">
-        <PageSidebar />
+        <PageSidebar
+            :currentUrl="$route().current()"
+        />
 
         <main>
             <slot />
