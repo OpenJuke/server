@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
@@ -16,17 +17,21 @@ class RegisterController extends Controller
         return Inertia::render('Auth/Register');
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $this->validate(request(), [
-            'name' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string',
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|string',
         ]);
 
-        $user = User::create(request(['name', 'email', 'password']));
+        $newUser = new User();
+        $newUser->name = $validated['name'];
+        $newUser->email = $validated['email'];
+        $newUser->password = $validated['password'];
+        $newUser->save();
 
-        Auth::login($user);
+        Auth::login($newUser);
 
         return Redirect::route('discovery.index');
     }
