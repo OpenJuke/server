@@ -22,9 +22,11 @@ class UserController extends Controller
         return Inertia::render('Admin/Users/Create');
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return Inertia::render('Admin/Users/Edit');
+        return Inertia::render('Admin/Users/Edit', [
+            'user' => User::findOrFail($id)
+        ]);
     }
 
     public function store(Request $request) {
@@ -44,10 +46,29 @@ class UserController extends Controller
     }
 
     public function update(Request $request, $id) {
-        // TODO
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'string|nullable',
+        ]);
+
+        $user = User::find($id);
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+
+        if($validated['password'] != null) {
+            $user->password = $validated['password'];
+        }
+
+        $user->save();
+
+        return Redirect::route('admin.users.index');
     }
 
     public function destroy(Request $request, $id) {
-        // TODO
+        $user = User::find($id);
+        $user->delete();
+
+        return Redirect::route('admin.users.index');
     }
 }

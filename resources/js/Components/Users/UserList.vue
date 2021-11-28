@@ -15,21 +15,37 @@
                 <div>{{ user.email }}</div>
                 <div>{{ user.created_at|moment("calendar") }}</div>
                 <div>{{ user.updated_at|moment("calendar") }}</div>
-                <div>Edit, Delete</div>
+                <div class="actions">
+                    <OButton icon="account-edit-outline" :text="'Edit'" @click.native="editItem(user.id)" />
+                    <OButton icon="trash-can-outline" :text="false" @click.native="deleteItem(user.id)" />
+                </div>
             </div>
         </main>
     </section>
 </template>
 
 <script>
+import OButton from '@/Components/Common/OButton';
+
 export default {
     name: 'UserList',
+    components: {
+        OButton
+    },
     props: {
         users: {
             type: Array,
             default() {
                 return [];
             }
+        }
+    },
+    methods: {
+        editItem(userId) {
+            this.$inertia.get(this.$route('admin.users.edit', {user: userId}));
+        },
+        deleteItem(userId) {
+            this.$inertia.delete(this.$route('admin.users.destroy', {user: userId}));
         }
     }
 }
@@ -55,8 +71,17 @@ export default {
                 transition: 0.2s ease-in-out background;
 
                 & > div {
+                    align-self: center;
                     padding: 10px 20px;
                     color: rgba(255,255,255,0.6);
+
+                    &.actions {
+                        display: flex;
+
+                        & > * {
+                            margin-right: 5px;
+                        }
+                    }
                 }
 
                 &:hover {
