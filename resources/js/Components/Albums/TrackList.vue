@@ -1,25 +1,24 @@
 <template>
-    <section class="artist-list">
+    <section class="track-list">
         <header>
             <div>ID</div>
-            <div>Cover</div>
-            <div>Name</div>
-            <div>Alternative Name</div>
-            <div>Songs</div>
-            <div>Albums</div>
+            <div>Title</div>
+            <div>Artists</div>
+            <div>Duration</div>
             <div>Actions</div>
         </header>
         <main>
-            <div class="item" v-for="artist in artists" :key="artist.id">
-                <div>{{ artist.id }}</div>
-                <div><img :src="artist.cover" class="table-image-round" v-if="artist.cover" /></div>
-                <div>{{ artist.name }}</div>
-                <div>{{ artist.alternative_name }}</div>
-                <div>{{ artist.tracks.length }}</div>
-                <div>{{ artist.albums.length }}</div>
+            <div class="item" v-for="track in tracks" :key="track.id">
+                <div>{{ track.id }}</div>
+                <div>
+                    <img :src="track.cover" class="table-image-rounded" v-if="track.cover" /><br />
+                    {{ track.title }}<br />
+                    {{ track.alternative_title }}
+                </div>
+                <div>{{ track.artists }}</div>
+                <div>{{ track.duration }}</div>
                 <div class="actions">
-                    <OButton icon="account-edit-outline" :text="'Edit'" @click.native="editItem(artist.id)" />
-                    <OButton icon="trash-can-outline" :text="false" @click.native="deleteItem(artist.id)" />
+                    <OButton icon="play" @click.native="playItem(track.id)" />
                 </div>
             </div>
         </main>
@@ -30,12 +29,12 @@
 import OButton from '@/Components/Common/OButton';
 
 export default {
-    name: 'ArtistList',
+    name: 'TrackList',
     components: {
         OButton
     },
     props: {
-        artists: {
+        tracks: {
             type: Array,
             default() {
                 return [];
@@ -43,21 +42,18 @@ export default {
         }
     },
     methods: {
-        editItem(artistId) {
-            this.$inertia.get(this.$route('admin.content.artists.edit', {artist: artistId}));
+        playItem(trackId) {
+            this.$root.$emit('playTrack', {track: trackId});
         },
-        deleteItem(artistId) {
-            this.$inertia.delete(this.$route('admin.content.artists.destroy', {artist: artistId}));
-        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.artist-list {
+.track-list {
     & header, & main > div {
         display: grid;
-        grid-template-columns: 50px 70px 1fr 1fr 100px 100px 200px;
+        grid-template-columns: 50px 70px 1fr 1fr 100px 200px;
         padding: 0px 20px;
     }
     & header {

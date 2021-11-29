@@ -2,24 +2,24 @@
 
 namespace App\Console\Commands;
 
-use App\Services\Content\ArtistService;
+use App\Services\Content\AlbumService;
 use Illuminate\Console\Command;
 
-class ArtistCreate extends Command
+class AlbumCreate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'artist:create {name} {alternativeName}';
+    protected $signature = 'album:create {title} {alternativeTitle}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Creates an artist';
+    protected $description = 'Creates an album';
 
     /**
      * Create a new command instance.
@@ -36,12 +36,12 @@ class ArtistCreate extends Command
      *
      * @return int
      */
-    public function handle(ArtistService $artistService)
+    public function handle(AlbumService $albumService)
     {
-        $name = $this->argument('name');
-        $alternativeName = $this->argument('alternativeName');
+        $title = $this->argument('title');
+        $alternativeTitle = $this->argument('alternativeTitle');
 
-        if($artistService->create($name, $alternativeName)) {
+        if($albumService->create($title, $alternativeTitle)) {
             return Command::SUCCESS;
         } else {
             return Command::FAILURE;

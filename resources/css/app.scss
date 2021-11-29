@@ -38,6 +38,25 @@ section .item .table-image-round {
     height: 30px;
     border-radius: 100px;
 }
+section .item .table-image-rounded {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+}
+hr {
+    margin: 0;
+    padding: 0;
+    height: 1px;
+    width: 100%;
+    border: 0;
+    background: #222;
+}
+.page-header {
+    margin: 0;
+    font-size: 22px;
+    border-bottom: 1px solid #222;
+    padding: 25px;
+}
 .form-crud {
     display: grid;
     grid-gap: 15px;

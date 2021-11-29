@@ -1,18 +1,18 @@
 <template>
     <div>
-        <PageHeader title="Edit an artist"></PageHeader>
+        <PageHeader title="Edit an album"></PageHeader>
 
         <div class="wrapper">
             <form @submit.prevent="sendForm" enctype="multipart/form-data" class="form-crud">
                 <div class="input-group">
-                    <label for="name">Name*</label>
-                    <input type="text" v-model="form.name" id="name" />
-                    <div v-if="errors && errors.name" class="error">{{ errors.name }}</div>
+                    <label for="title">Title*</label>
+                    <input type="text" v-model="form.title" id="title" />
+                    <div v-if="errors && errors.title" class="error">{{ errors.title }}</div>
                 </div>
                 <div class="input-group">
-                    <label for="alternative_name">Alternative Name</label>
-                    <input type="text" v-model="form.alternative_name" id="alternative_name" />
-                    <div v-if="errors && errors.alternative_name" class="error">{{ errors.alternative_name }}</div>
+                    <label for="alternative_title">Alternative Title</label>
+                    <input type="text" v-model="form.alternative_title" id="alternative_title" />
+                    <div v-if="errors && errors.alternative_title" class="error">{{ errors.alternative_title }}</div>
                 </div>
                 <div class="input-group">
                     <label for="cover">Cover</label>
@@ -25,22 +25,36 @@
                 </div>
             </form>
         </div>
+
+        <hr />
+
+        <h1 class="page-header">Artists</h1>
+
+        <ArtistList :artists="album.artists" />
+
+        <div class="wrapper">
+            <OButton icon="plus" text="Add artist" />
+        </div>
     </div>
 </template>
 
 <script>
 import PageHeader from '@/Components/Common/PageHeader';
 import OButtonSubmit from '@/Components/Common/OButtonSubmit';
+import OButton from '@/Components/Common/OButton';
 import { Inertia } from '@inertiajs/inertia';
+import ArtistList from '@/Components/Admin/Content/Albums/ArtistList';
 
 export default {
-    name: 'AdminContentArtistEdit',
+    name: 'AdminContentAlbumEdit',
     components: {
         PageHeader,
-        OButtonSubmit
+        OButtonSubmit,
+        OButton,
+        ArtistList
     },
     props: {
-        artist: {
+        album: {
             type: Object|Boolean,
             default() {
                 return false;
@@ -51,8 +65,8 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                name: this.artist.name,
-                alternative_name: this.artist.alternative_name ? this.artist.alternative_name : null,
+                title: this.album.title,
+                alternative_title: this.album.alternative_title ? this.album.alternative_title : null,
                 cover: null
             }),
         }
@@ -60,7 +74,7 @@ export default {
     methods: {
         sendForm() {
             this.form.cover = this.$refs.coverFile.files[0];
-            Inertia.post(this.$route('admin.content.artists.update', {artist: this.artist}), {...this.form, _method: 'PUT'});
+            Inertia.post(this.$route('admin.content.albums.update', {album: this.album}), {...this.form, _method: 'PUT'});
         }
     }
 }

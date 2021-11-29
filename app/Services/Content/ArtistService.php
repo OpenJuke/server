@@ -5,7 +5,7 @@ namespace App\Services\Content;
 use App\Models\Artist;
 
 class ArtistService {
-    public function create(string $name, ?string $alternative_name, ?string $cover_base64) {
+    public function create(string $name, ?string $alternative_name, ?string $cover_base64 = null) {
         $artist = new Artist();
 
         $artist->name = $name;
@@ -19,8 +19,8 @@ class ArtistService {
         }
     }
 
-    public function update(int $id, string $name, ?string $alternative_name, ?string $cover_base64) {
-        $artist = Artist::find($id);
+    public function update(int $id, string $name, ?string $alternative_name, ?string $cover_base64 = null) {
+        $artist = Artist::findOrFail($id);
 
         $artist->name = $name;
         $artist->alternative_name = $alternative_name;

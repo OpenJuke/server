@@ -5,9 +5,6 @@
             <div>Cover</div>
             <div>Name</div>
             <div>Alternative Name</div>
-            <div>Songs</div>
-            <div>Albums</div>
-            <div>Actions</div>
         </header>
         <main>
             <div class="item" v-for="artist in artists" :key="artist.id">
@@ -15,12 +12,6 @@
                 <div><img :src="artist.cover" class="table-image-round" v-if="artist.cover" /></div>
                 <div>{{ artist.name }}</div>
                 <div>{{ artist.alternative_name }}</div>
-                <div>{{ artist.tracks.length }}</div>
-                <div>{{ artist.albums.length }}</div>
-                <div class="actions">
-                    <OButton icon="account-edit-outline" :text="'Edit'" @click.native="editItem(artist.id)" />
-                    <OButton icon="trash-can-outline" :text="false" @click.native="deleteItem(artist.id)" />
-                </div>
             </div>
         </main>
     </section>
@@ -30,7 +21,7 @@
 import OButton from '@/Components/Common/OButton';
 
 export default {
-    name: 'ArtistList',
+    name: 'AlbumArtistList',
     components: {
         OButton
     },
@@ -42,14 +33,6 @@ export default {
             }
         }
     },
-    methods: {
-        editItem(artistId) {
-            this.$inertia.get(this.$route('admin.content.artists.edit', {artist: artistId}));
-        },
-        deleteItem(artistId) {
-            this.$inertia.delete(this.$route('admin.content.artists.destroy', {artist: artistId}));
-        }
-    }
 }
 </script>
 
@@ -57,7 +40,7 @@ export default {
 .artist-list {
     & header, & main > div {
         display: grid;
-        grid-template-columns: 50px 70px 1fr 1fr 100px 100px 200px;
+        grid-template-columns: 50px 70px 1fr 1fr;
         padding: 0px 20px;
     }
     & header {
@@ -76,14 +59,6 @@ export default {
                 align-self: center;
                 padding: 10px 20px;
                 color: rgba(255,255,255,0.6);
-
-                &.actions {
-                    display: flex;
-
-                    & > * {
-                        margin-right: 5px;
-                    }
-                }
             }
 
             &:hover {

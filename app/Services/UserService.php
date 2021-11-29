@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\User;
 
 class UserService {
-    public function create(string $name, string $email, string $password, ?string $avatar_base64) {
+    public function create(string $name, string $email, string $password, ?string $avatar_base64 = null) {
         $user = new User();
 
         $user->name = $name;
@@ -23,8 +23,8 @@ class UserService {
         }
     }
 
-    public function update(int $id, string $name, string $email, ?string $password, ?string $avatar_base64) {
-        $user = User::find($id);
+    public function update(int $id, string $name, string $email, ?string $password, ?string $avatar_base64 = null) {
+        $user = User::findOrFail($id);
 
         $user->name = $name;
         $user->email = $email;

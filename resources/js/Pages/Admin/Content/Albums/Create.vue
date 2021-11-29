@@ -1,18 +1,18 @@
 <template>
     <div>
-        <PageHeader title="Edit an artist"></PageHeader>
+        <PageHeader title="Create album"></PageHeader>
 
         <div class="wrapper">
             <form @submit.prevent="sendForm" enctype="multipart/form-data" class="form-crud">
                 <div class="input-group">
-                    <label for="name">Name*</label>
-                    <input type="text" v-model="form.name" id="name" />
-                    <div v-if="errors && errors.name" class="error">{{ errors.name }}</div>
+                    <label for="title">Title*</label>
+                    <input type="text" v-model="form.title" id="title" />
+                    <div v-if="errors && errors.title" class="error">{{ errors.title }}</div>
                 </div>
                 <div class="input-group">
-                    <label for="alternative_name">Alternative Name</label>
-                    <input type="text" v-model="form.alternative_name" id="alternative_name" />
-                    <div v-if="errors && errors.alternative_name" class="error">{{ errors.alternative_name }}</div>
+                    <label for="alternative_title">Alternative Title</label>
+                    <input type="text" v-model="form.alternative_title" id="alternative_title" />
+                    <div v-if="errors && errors.alternative_title" class="error">{{ errors.alternative_title }}</div>
                 </div>
                 <div class="input-group">
                     <label for="cover">Cover</label>
@@ -21,7 +21,7 @@
                     <div class="hint">.jpg/.png file, Aspect ratio: 1 by 1</div>
                 </div>
                 <div class="input-actions">
-                    <OButtonSubmit text="Save" icon="content-save" />
+                    <OButtonSubmit text="Create" icon="content-save" />
                 </div>
             </form>
         </div>
@@ -34,33 +34,27 @@ import OButtonSubmit from '@/Components/Common/OButtonSubmit';
 import { Inertia } from '@inertiajs/inertia';
 
 export default {
-    name: 'AdminContentArtistEdit',
+    name: 'AdminContentAlbumCreate',
     components: {
         PageHeader,
         OButtonSubmit
     },
     props: {
-        artist: {
-            type: Object|Boolean,
-            default() {
-                return false;
-            }
-        },
         errors: Object,
     },
     data() {
         return {
             form: this.$inertia.form({
-                name: this.artist.name,
-                alternative_name: this.artist.alternative_name ? this.artist.alternative_name : null,
-                cover: null
+                title: null,
+                alternative_title: null,
+                cover: null,
             }),
         }
     },
     methods: {
         sendForm() {
             this.form.cover = this.$refs.coverFile.files[0];
-            Inertia.post(this.$route('admin.content.artists.update', {artist: this.artist}), {...this.form, _method: 'PUT'});
+            Inertia.post(this.$route('admin.content.albums.store'), this.form);
         }
     }
 }

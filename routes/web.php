@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Content\ArtistController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\IndexController as AuthIndexController;
@@ -8,6 +7,9 @@ use App\Http\Controllers\Auth\LoginController as AuthLoginController;
 use App\Http\Controllers\Auth\RegisterController as AuthRegisterController;
 use App\Http\Controllers\DiscoveryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\Admin\Content\ArtistController as AdminArtistController;
+use App\Http\Controllers\Admin\Content\AlbumController as AdminAlbumController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,11 +36,17 @@ Route::get('/auth/logout', [AuthIndexController::class, 'logout'])->middleware('
 // Discovery
 Route::get('/discovery', [DiscoveryController::class, 'index'])->middleware('auth')->name('discovery.index');
 
+// Albums
+Route::prefix('albums')->name('albums.')->middleware(['auth'])->group(function () {
+    Route::get('/show/{album}', [AlbumController::class, 'show'])->name('show');
+});
+
 // Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 
     Route::prefix('content')->name('content.')->group(function () {
-        Route::resource('artists', ArtistController::class);
+        Route::resource('artists', AdminArtistController::class);
+        Route::resource('albums', AdminAlbumController::class);
     });
 });

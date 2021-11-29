@@ -1,25 +1,26 @@
 <template>
-    <section class="artist-list">
+    <section class="album-list">
         <header>
             <div>ID</div>
             <div>Cover</div>
-            <div>Name</div>
-            <div>Alternative Name</div>
+            <div>Title</div>
+            <div>Alternative Title</div>
+            <div>Artists</div>
             <div>Songs</div>
-            <div>Albums</div>
             <div>Actions</div>
         </header>
         <main>
-            <div class="item" v-for="artist in artists" :key="artist.id">
-                <div>{{ artist.id }}</div>
-                <div><img :src="artist.cover" class="table-image-round" v-if="artist.cover" /></div>
-                <div>{{ artist.name }}</div>
-                <div>{{ artist.alternative_name }}</div>
-                <div>{{ artist.tracks.length }}</div>
-                <div>{{ artist.albums.length }}</div>
+            <div class="item" v-for="album in albums" :key="album.id">
+                <div>{{ album.id }}</div>
+                <div><img :src="album.cover" class="table-image-rounded" v-if="album.cover" /></div>
+                <div>{{ album.title }}</div>
+                <div>{{ album.alternative_title }}</div>
+                <div>{{ album.artists }}</div>
+                <div>{{ album.tracks.length }}</div>
                 <div class="actions">
-                    <OButton icon="account-edit-outline" :text="'Edit'" @click.native="editItem(artist.id)" />
-                    <OButton icon="trash-can-outline" :text="false" @click.native="deleteItem(artist.id)" />
+                    <OButton icon="eye" @click.native="showItem(album.id)" />
+                    <OButton icon="pencil-outline" @click.native="editItem(album.id)" />
+                    <OButton icon="trash-can-outline" :text="false" @click.native="deleteItem(album.id)" />
                 </div>
             </div>
         </main>
@@ -30,12 +31,12 @@
 import OButton from '@/Components/Common/OButton';
 
 export default {
-    name: 'ArtistList',
+    name: 'AlbumList',
     components: {
         OButton
     },
     props: {
-        artists: {
+        albums: {
             type: Array,
             default() {
                 return [];
@@ -43,21 +44,24 @@ export default {
         }
     },
     methods: {
-        editItem(artistId) {
-            this.$inertia.get(this.$route('admin.content.artists.edit', {artist: artistId}));
+        showItem(albumId) {
+            this.$inertia.get(this.$route('albums.show', {album: albumId}));
         },
-        deleteItem(artistId) {
-            this.$inertia.delete(this.$route('admin.content.artists.destroy', {artist: artistId}));
+        editItem(albumId) {
+            this.$inertia.get(this.$route('admin.content.albums.edit', {album: albumId}));
+        },
+        deleteItem(albumId) {
+            this.$inertia.delete(this.$route('admin.content.albums.destroy', {album: albumId}));
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.artist-list {
+.album-list {
     & header, & main > div {
         display: grid;
-        grid-template-columns: 50px 70px 1fr 1fr 100px 100px 200px;
+        grid-template-columns: 50px 70px 1fr 1fr 1fr 100px 200px;
         padding: 0px 20px;
     }
     & header {

@@ -35,7 +35,7 @@
                     <span class="mdi mdi-music"></span>
                     <div>Tracks</div>
                 </Link>
-                <Link :href="$route('admin.content.artists.index')">
+                <Link :href="$route('admin.content.albums.index')">
                     <span class="mdi mdi-album"></span>
                     <div>Albums</div>
                 </Link>
@@ -97,6 +97,7 @@ export default {
         & .profile {
             display: grid;
             justify-content: center;
+            text-align: center;
 
             & img {
                 width: 128px;
