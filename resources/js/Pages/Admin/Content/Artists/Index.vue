@@ -1,22 +1,22 @@
 <template>
     <div>
-        <PageHeader title="Users">
-            <PageHeaderButton icon="plus" @click.native="$inertia.get($route('admin.users.create'))" />
+        <PageHeader title="Artists">
+            <PageHeaderButton icon="plus" @click.native="$inertia.get($route('admin.content.artists.create'))" />
         </PageHeader>
 
-        <UserList :users="users" />
+        <ArtistList :artists="artists" />
     </div>
 </template>
 
 <script>
 import PageHeader from '@/Components/Common/PageHeader';
 import PageHeaderButton from '@/Components/Common/PageHeaderButton';
-import UserList from '@/Components/Admin/Users/UserList';
+import ArtistList from '@/Components/Admin/Content/Artists/ArtistList';
 
 export default {
-    name: 'AdminUsersIndex',
+    name: 'AdminContentArtistsIndex',
     props: {
-        users: {
+        artists: {
             type: Array,
             default() {
                 return []
@@ -26,7 +26,7 @@ export default {
     components: {
         PageHeader,
         PageHeaderButton,
-        UserList
+        ArtistList
     },
 }
 </script>

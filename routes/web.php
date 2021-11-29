@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Content\ArtistController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\IndexController as AuthIndexController;
@@ -36,4 +37,8 @@ Route::get('/discovery', [DiscoveryController::class, 'index'])->middleware('aut
 // Admin
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
+
+    Route::prefix('content')->name('content.')->group(function () {
+        Route::resource('artists', ArtistController::class);
+    });
 });

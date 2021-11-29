@@ -1,26 +1,21 @@
 <template>
     <div>
-        <PageHeader title="Edit user"></PageHeader>
+        <PageHeader title="Create artist"></PageHeader>
 
         <div class="wrapper">
             <form @submit.prevent="sendForm">
                 <div class="input-group">
-                    <label for="name">Username*</label>
+                    <label for="name">Name*</label>
                     <input type="text" v-model="form.name" id="name" />
                     <div v-if="form.errors.name">{{ form.errors.name }}</div>
                 </div>
                 <div class="input-group">
-                    <label for="email">E-Mail*</label>
-                    <input type="text" v-model="form.email" id="email" />
-                    <div v-if="form.errors.email">{{ form.errors.email }}</div>
-                </div>
-                <div class="input-group">
-                    <label for="password">Password*</label>
-                    <input type="password" v-model="form.password" id="password" />
-                    <div v-if="form.errors.password">{{ form.errors.password }}</div>
+                    <label for="alternative_name">Alternative Name</label>
+                    <input type="text" v-model="form.alternative_name" id="alternative_name" />
+                    <div v-if="form.errors.alternative_name">{{ form.errors.alternative_name }}</div>
                 </div>
                 <div class="input-actions">
-                    <OButtonSubmit text="Save" icon="content-save" />
+                    <OButtonSubmit text="Create" icon="content-save" />
                 </div>
             </form>
         </div>
@@ -33,31 +28,22 @@ import OButtonSubmit from '@/Components/Common/OButtonSubmit';
 import { Inertia } from '@inertiajs/inertia';
 
 export default {
-    name: 'AdminUsersEdit',
+    name: 'AdminContentArtistCreate',
     components: {
         PageHeader,
         OButtonSubmit
     },
-    props: {
-        user: {
-            type: Object|Boolean,
-            default() {
-                return false;
-            }
-        }
-    },
     data() {
         return {
             form: this.$inertia.form({
-                name: this.user.name,
-                email: this.user.email,
-                password: null,
+                name: null,
+                alternative_name: null,
             }),
         }
     },
     methods: {
         sendForm() {
-            Inertia.put(this.$route('admin.users.update', {user: this.user}), this.form);
+            Inertia.post(this.$route('admin.content.artists.store'), this.form);
         }
     }
 }

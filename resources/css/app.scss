@@ -14,3 +14,13 @@ body {
     background: #111111;
     color: #fff;
 }
+.wrapper {
+    padding: 25px;
+}
+input[type="text"], input[type="email"], input[type="password"] {
+    border: 0;
+    color: #fff;
+    padding: 7px 15px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.07);
+}
