@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\UserService;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,45 +30,32 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, UserService $userService) {
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
             'password' => 'required|string',
         ]);
 
-        $newUser = new User();
-        $newUser->name = $validated['name'];
-        $newUser->email = $validated['email'];
-        $newUser->password = $validated['password'];
-        $newUser->save();
+        $userService->create($validated['name'], $validated['email'], $validated['password']);
 
         return Redirect::route('admin.users.index');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, UserService $userService, $id) {
         $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email',
             'password' => 'string|nullable',
         ]);
 
-        $user = User::find($id);
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-
-        if($validated['password'] != null) {
-            $user->password = $validated['password'];
-        }
-
-        $user->save();
+        $userService->update($id, $validated['name'], $validated['email'], $validated['password']);
 
         return Redirect::route('admin.users.index');
     }
 
-    public function destroy(Request $request, $id) {
-        $user = User::find($id);
-        $user->delete();
+    public function destroy(Request $request, UserService $userService, $id) {
+        $userService->destroy($id);
 
         return Redirect::route('admin.users.index');
     }

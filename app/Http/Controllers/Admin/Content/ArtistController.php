@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
+use App\Services\Content\ArtistService;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -29,37 +30,30 @@ class ArtistController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, ArtistService $artistService) {
         $validated = $request->validate([
             'name' => 'required|string',
             'alternative_name' => 'string',
         ]);
 
-        $artist = new Artist();
-        $artist->name = $validated['name'];
-        $artist->alternative_name = $validated['alternative_name'];
-        $artist->save();
+        $artistService->create($validated['name'], $validated['alternative_name']);
 
         return Redirect::route('admin.content.artists.index');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, ArtistService $artistService, $id) {
         $validated = $request->validate([
             'name' => 'required|string',
             'alternative_name' => 'string',
         ]);
 
-        $artist = Artist::find($id);
-        $artist->name = $validated['name'];
-        $artist->alternative_name = $validated['alternative_name'];
-        $artist->save();
+        $artistService->update($id, $validated['name'], $validated['alternative_name']);
 
         return Redirect::route('admin.content.artists.index');
     }
 
-    public function destroy(Request $request, $id) {
-        $artist = Artist::find($id);
-        $artist->delete();
+    public function destroy(Request $request, ArtistService $artistService, $id) {
+        $artistService->destroy($id);
 
         return Redirect::route('admin.content.artists.index');
     }

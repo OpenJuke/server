@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ class RegisterController extends Controller
         return Inertia::render('Auth/Register');
     }
 
-    public function store(Request $request)
+    public function store(Request $request, UserService $userService)
     {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -25,13 +26,9 @@ class RegisterController extends Controller
             'password' => 'required|string',
         ]);
 
-        $newUser = new User();
-        $newUser->name = $validated['name'];
-        $newUser->email = $validated['email'];
-        $newUser->password = $validated['password'];
-        $newUser->save();
+        $user = $userService->create($validated['name'], $validated['email'], $validated['password']);
 
-        Auth::login($newUser);
+        Auth::login($user);
 
         return Redirect::route('discovery.index');
     }
