@@ -2,7 +2,12 @@
     <div>
         <PageHeader title="Edit an album"></PageHeader>
 
-        <div class="wrapper">
+        <Tabs>
+            <TabItem @click.native="currentTab = 0" title="General" :isActive="currentTab === 0" />
+            <TabItem @click.native="currentTab = 1" title="Artists" :isActive="currentTab === 1" />
+        </Tabs>
+
+        <div class="wrapper" v-if="currentTab === 0">
             <form @submit.prevent="sendForm" enctype="multipart/form-data" class="form-crud">
                 <div class="input-group">
                     <label for="title">Title*</label>
@@ -26,13 +31,11 @@
             </form>
         </div>
 
+        <ArtistList :artists="album.artists" v-if="currentTab === 1" />
+
         <hr />
 
-        <h1 class="page-header">Artists</h1>
-
-        <ArtistList :artists="album.artists" />
-
-        <div class="wrapper">
+        <div class="wrapper" v-if="currentTab === 1">
             <OButton icon="plus" text="Add artist" />
         </div>
     </div>
@@ -42,6 +45,8 @@
 import PageHeader from '@/Components/Common/PageHeader';
 import OButtonSubmit from '@/Components/Common/OButtonSubmit';
 import OButton from '@/Components/Common/OButton';
+import Tabs from '@/Components/Common/Tabs/Tabs';
+import TabItem from '@/Components/Common/Tabs/TabItem';
 import { Inertia } from '@inertiajs/inertia';
 import ArtistList from '@/Components/Admin/Content/Albums/ArtistList';
 
@@ -51,6 +56,8 @@ export default {
         PageHeader,
         OButtonSubmit,
         OButton,
+        Tabs,
+        TabItem,
         ArtistList
     },
     props: {
@@ -64,6 +71,7 @@ export default {
     },
     data() {
         return {
+            currentTab: 0,
             form: this.$inertia.form({
                 title: this.album.title,
                 alternative_title: this.album.alternative_title ? this.album.alternative_title : null,

@@ -15,7 +15,7 @@
                 <div><img :src="album.cover" class="table-image-rounded" v-if="album.cover" /></div>
                 <div>{{ album.title }}</div>
                 <div>{{ album.alternative_title }}</div>
-                <div>{{ album.artists }}</div>
+                <div>{{ getArtists(album.artists) }}</div>
                 <div>{{ album.tracks.length }}</div>
                 <div class="actions">
                     <OButton icon="eye" @click.native="showItem(album.id)" />
@@ -52,8 +52,17 @@ export default {
         },
         deleteItem(albumId) {
             this.$inertia.delete(this.$route('admin.content.albums.destroy', {album: albumId}));
+        },
+        getArtists(artists) {
+            let artistNames = [];
+
+            artists.forEach(artist => {
+                artistNames.push(artist.name);
+            });
+
+            return artistNames.join(", ");
         }
-    }
+    },
 }
 </script>
 

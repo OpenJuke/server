@@ -3,6 +3,7 @@
 namespace App\Services\Content;
 
 use App\Models\Album;
+use App\Models\Artist;
 
 class AlbumService {
     public function create(string $title, ?string $alternative_title, ?string $cover_base64 = null) {
@@ -32,5 +33,12 @@ class AlbumService {
     public function destroy(int $id) {
         $album = Album::find($id);
         return $album->delete();
+    }
+
+    public function addArtist(int $id, int $artistId) {
+        $album = Album::findOrFail($id);
+        $artist = Artist::findOrFail($artistId);
+
+        return $album->artists()->save($artist);
     }
 }

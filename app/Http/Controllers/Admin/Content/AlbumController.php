@@ -26,7 +26,7 @@ class AlbumController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Content/Albums/Edit', [
-            'album' => Album::findOrFail($id)
+            'album' => Album::with('artists', 'tracks')->findOrFail($id)
         ]);
     }
 
