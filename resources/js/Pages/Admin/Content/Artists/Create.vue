@@ -3,16 +3,22 @@
         <PageHeader title="Create artist"></PageHeader>
 
         <div class="wrapper">
-            <form @submit.prevent="sendForm">
+            <form @submit.prevent="sendForm" enctype="multipart/form-data" class="form-crud">
                 <div class="input-group">
                     <label for="name">Name*</label>
                     <input type="text" v-model="form.name" id="name" />
-                    <div v-if="form.errors.name">{{ form.errors.name }}</div>
+                    <div v-if="errors && errors.name" class="error">{{ errors.name }}</div>
                 </div>
                 <div class="input-group">
                     <label for="alternative_name">Alternative Name</label>
                     <input type="text" v-model="form.alternative_name" id="alternative_name" />
-                    <div v-if="form.errors.alternative_name">{{ form.errors.alternative_name }}</div>
+                    <div v-if="errors && errors.alternative_name" class="error">{{ errors.alternative_name }}</div>
+                </div>
+                <div class="input-group">
+                    <label for="cover">Cover</label>
+                    <input type="file" ref="coverFile" id="cover" />
+                    <div v-if="errors && errors.cover" class="error">{{ errors.cover }}</div>
+                    <div class="hint">.jpg/.png file, Aspect ratio: 1 by 1</div>
                 </div>
                 <div class="input-actions">
                     <OButtonSubmit text="Create" icon="content-save" />
@@ -33,16 +39,21 @@ export default {
         PageHeader,
         OButtonSubmit
     },
+    props: {
+        errors: Object,
+    },
     data() {
         return {
             form: this.$inertia.form({
                 name: null,
                 alternative_name: null,
+                cover: null,
             }),
         }
     },
     methods: {
         sendForm() {
+            this.form.cover = this.$refs.coverFile.files[0];
             Inertia.post(this.$route('admin.content.artists.store'), this.form);
         }
     }
@@ -50,24 +61,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-form {
-    display: grid;
-    grid-gap: 15px;
-    max-width: 600px;
 
-    & .input-group {
-        display: grid;
-        grid-template-columns: 150px 1fr;
-        grid-gap: 15px;
-        align-items: center;
-
-        & label {
-            color: rgba(255,255,255,0.6);
-        }
-    }
-    & .input-actions {
-        display: flex;
-        justify-content: flex-end;
-    }
-}
 </style>

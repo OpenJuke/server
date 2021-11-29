@@ -2,6 +2,7 @@
     <section class="user-list">
         <header>
             <div>ID</div>
+            <div>Avatar</div>
             <div>Username</div>
             <div>Email</div>
             <div>Created</div>
@@ -11,6 +12,7 @@
         <main>
             <div class="item" v-for="user in users" :key="user.id">
                 <div>{{ user.id }}</div>
+                <div><img :src="user.avatar" class="table-image-round" v-if="user.avatar" /></div>
                 <div>{{ user.name }}</div>
                 <div>{{ user.email }}</div>
                 <div>{{ user.created_at|moment("calendar") }}</div>
@@ -55,12 +57,12 @@ export default {
     .user-list {
         & header, & main > div {
             display: grid;
-            grid-template-columns: 50px 1fr 1fr 250px 250px 200px;
+            grid-template-columns: 50px 70px 1fr 1fr 170px 170px 200px;
             padding: 0px 20px;
         }
         & header {
             border-bottom: 1px solid #222;
-            
+
             & > div {
                 padding: 10px 20px;
                 font-weight: bold;

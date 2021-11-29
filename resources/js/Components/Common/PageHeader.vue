@@ -9,21 +9,26 @@
         <form class="search" @submit.prevent="sendSearchForm">
             <input type="text" name="q" placeholder="Search for Artists, tracks or albums..." />
         </form>
-        <Link :href="$route('discovery.index')">
-            <div class="avatar">
+        <div @click="toggleUserDropdown">
+            <div class="avatar" :style="'background-image: url(' + user.avatar + ')'" v-if="user.avatar"></div>
+            <div class="no-avatar" v-if="!user.avatar">
                 <span class="mdi mdi-account-circle-outline"></span>
             </div>
-        </Link>
+
+            <PageHeaderUserDropdown :active="isUserDropdownActive" />
+        </div>
     </header>
 </template>
 
 <script>
 import { Link } from '@inertiajs/inertia-vue';
+import PageHeaderUserDropdown from "@/Components/Common/PageHeaderUserDropdown";
 
 export default {
     name: 'PageHeader',
     components: {
-        Link
+        Link,
+        PageHeaderUserDropdown
     },
     props: {
         title: {
@@ -33,9 +38,19 @@ export default {
             }
         }
     },
+    data() {
+        return {
+            isUserDropdownActive: false
+        }
+    },
     methods: {
         sendSearchForm() {
 
+        },
+        toggleUserDropdown(e) {
+            console.log(e);
+
+            this.isUserDropdownActive = !this.isUserDropdownActive;
         }
     },
     computed: {
@@ -88,14 +103,17 @@ export default {
                 }
             }
         }
-        & .avatar {
+        & .avatar, & .no-avatar {
             width: 45px;
             height: 45px;
             border-radius: 100px;
+            background-position: center;
+            background-size: cover;
+        }
+        & .no-avatar {
             background: rgba(255,255,255,0.14);
             color: #fff;
             font-size: 24px;
-            text-align: none;
             display: flex;
             justify-content: center;
             align-items: center;

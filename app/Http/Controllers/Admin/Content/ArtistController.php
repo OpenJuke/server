@@ -33,10 +33,16 @@ class ArtistController extends Controller
     public function store(Request $request, ArtistService $artistService) {
         $validated = $request->validate([
             'name' => 'required|string',
-            'alternative_name' => 'string',
+            'alternative_name' => 'string|nullable',
+            'cover' => 'file|nullable'
         ]);
 
-        $artistService->create($validated['name'], $validated['alternative_name']);
+        $cover = null;
+        if($request->file('cover') != null) {
+            $cover = $this->createCover($request->file('cover'));
+        }
+
+        $artistService->create($validated['name'], $validated['alternative_name'], $cover);
 
         return Redirect::route('admin.content.artists.index');
     }
@@ -44,10 +50,16 @@ class ArtistController extends Controller
     public function update(Request $request, ArtistService $artistService, $id) {
         $validated = $request->validate([
             'name' => 'required|string',
-            'alternative_name' => 'string',
+            'alternative_name' => 'string|nullable',
+            'cover' => 'file|nullable'
         ]);
 
-        $artistService->update($id, $validated['name'], $validated['alternative_name']);
+        $cover = null;
+        if($request->file('cover') != null) {
+            $cover = $this->createCover($request->file('cover'));
+        }
+
+        $artistService->update($id, $validated['name'], $validated['alternative_name'], $cover);
 
         return Redirect::route('admin.content.artists.index');
     }
@@ -56,5 +68,23 @@ class ArtistController extends Controller
         $artistService->destroy($id);
 
         return Redirect::route('admin.content.artists.index');
+    }
+
+    public function createCover($file) {
+        $coverSize = 256;
+
+        $filePath = $file->getPathName();
+        $fileType = $file->getMimeType();
+
+        list($sourceWidth, $sourceHeight) = getimagesize($filePath);
+        $thumbnailData = imagecreatetruecolor($coverSize, $coverSize);
+        $sourceData = imagecreatefromstring(file_get_contents($filePath));
+        imagecopyresampled($thumbnailData, $sourceData, 0, 0, 0, 0, $coverSize, $coverSize, $sourceWidth, $sourceHeight);
+
+        ob_start();
+        imagejpeg($thumbnailData);
+        $finalData = ob_get_clean();
+
+        return 'data:' . $fileType . ';base64,' . base64_encode($finalData);
     }
 }

@@ -10,9 +10,9 @@
                 <span class="mdi mdi-view-dashboard"></span>
                 <div>Discovery</div>
             </Link>
-            <Link :href="$route('admin.users.index')" :class="{'active': currentUrl === 'admin.users.index'}">
-                <span class="mdi mdi-account-group"></span>
-                <div>Users</div>
+            <Link :href="$route('discovery.index')" :class="{'active': currentUrl === 'discovery.index'}">
+                <span class="mdi mdi-archive-music"></span>
+                <div>Library</div>
             </Link>
         </nav>
     </aside>
@@ -89,7 +89,7 @@ export default {
                 &.active {
                     background: rgba(252,59,181,0.15);
                     color: #FC3BB5;
-                } 
+                }
             }
         }
     }

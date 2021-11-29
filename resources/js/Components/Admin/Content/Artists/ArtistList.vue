@@ -2,6 +2,7 @@
     <section class="user-list">
         <header>
             <div>ID</div>
+            <div>Cover</div>
             <div>Name</div>
             <div>Alternative Name</div>
             <div>Songs</div>
@@ -11,6 +12,7 @@
         <main>
             <div class="item" v-for="artist in artists" :key="artist.id">
                 <div>{{ artist.id }}</div>
+                <div><img :src="artist.cover" class="table-image-round" v-if="artist.cover" /></div>
                 <div>{{ artist.name }}</div>
                 <div>{{ artist.alternative_name }}</div>
                 <div>{{ artist.tracks.length }}</div>
@@ -55,7 +57,7 @@ export default {
 .user-list {
     & header, & main > div {
         display: grid;
-        grid-template-columns: 50px 1fr 1fr 100px 100px 200px;
+        grid-template-columns: 50px 70px 1fr 1fr 100px 100px 200px;
         padding: 0px 20px;
     }
     & header {

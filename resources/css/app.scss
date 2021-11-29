@@ -1,6 +1,10 @@
 @import '~@mdi/font/scss/materialdesignicons.scss';
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap');
 
+$colorPrimary: #e84db1;
+$colorSecondary: #714fac;
+$colorError: #ff3863;
+
 html, body {
     margin: 0;
     padding: 0;
@@ -23,4 +27,46 @@ input[type="text"], input[type="email"], input[type="password"] {
     padding: 7px 15px;
     border-radius: 4px;
     background: rgba(255,255,255,0.07);
+}
+input[type="file"] {
+    border: 0;
+    color: #fff;
+    padding: 7px 0px;
+}
+section .item .table-image-round {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+}
+.form-crud {
+    display: grid;
+    grid-gap: 15px;
+    max-width: 600px;
+
+    & .input-group {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        grid-gap: 15px;
+        align-items: center;
+
+        & label {
+            color: rgba(255,255,255,1);
+        }
+        & .error {
+            background: rgba(255, 56, 99, 0.14);
+            color: rgb(255, 56, 99);
+            padding: 7px 15px;
+            border-radius: 4px;
+            grid-column: 2;
+        }
+        & .hint {
+            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            grid-column: 2;
+        }
+    }
+    & .input-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
 }
