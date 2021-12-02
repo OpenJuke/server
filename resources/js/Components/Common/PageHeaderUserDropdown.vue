@@ -31,7 +31,7 @@
                     <span class="mdi mdi-account-music"></span>
                     <div>Artists</div>
                 </Link>
-                <Link :href="$route('admin.content.artists.index')">
+                <Link :href="$route('admin.content.tracks.index')">
                     <span class="mdi mdi-music"></span>
                     <div>Tracks</div>
                 </Link>

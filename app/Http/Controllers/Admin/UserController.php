@@ -38,12 +38,12 @@ class UserController extends Controller
             'avatar' => 'file|nullable',
         ]);
 
-        $avatar = null;
-        if($request->file('avatar') != null) {
-            $avatar = $this->createAvatar($request->file('avatar'));
-        }
-
-        $userService->create($validated['name'], $validated['email'], $validated['password'], $avatar);
+        $userService->create(
+            $validated['name'],
+            $validated['email'],
+            $validated['password'],
+            $request->file('avatar')
+        );
 
         return Redirect::route('admin.users.index');
     }
@@ -56,12 +56,13 @@ class UserController extends Controller
             'avatar' => 'file|nullable',
         ]);
 
-        $avatar = null;
-        if($request->file('avatar') != null) {
-            $avatar = $this->createAvatar($request->file('avatar'));
-        }
-
-        $userService->update($id, $validated['name'], $validated['email'], $validated['password'], $avatar);
+        $userService->update(
+            $id,
+            $validated['name'],
+            $validated['email'],
+            $validated['password'],
+            $request->file('avatar')
+        );
 
         return Redirect::route('admin.users.index');
     }
@@ -70,23 +71,5 @@ class UserController extends Controller
         $userService->destroy($id);
 
         return Redirect::route('admin.users.index');
-    }
-
-    public function createAvatar($file) {
-        $avatarSize = 256;
-
-        $filePath = $file->getPathName();
-        $fileType = $file->getMimeType();
-
-        list($sourceWidth, $sourceHeight) = getimagesize($filePath);
-        $thumbnailData = imagecreatetruecolor($avatarSize, $avatarSize);
-        $sourceData = imagecreatefromstring(file_get_contents($filePath));
-        imagecopyresampled($thumbnailData, $sourceData, 0, 0, 0, 0, $avatarSize, $avatarSize, $sourceWidth, $sourceHeight);
-
-        ob_start();
-        imagejpeg($thumbnailData);
-        $finalData = ob_get_clean();
-
-        return 'data:' . $fileType . ';base64,' . base64_encode($finalData);
     }
 }

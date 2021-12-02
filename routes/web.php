@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\Admin\Content\ArtistController as AdminArtistController;
 use App\Http\Controllers\Admin\Content\AlbumController as AdminAlbumController;
+use App\Http\Controllers\Admin\Content\TrackController as AdminTrackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::prefix('content')->name('content.')->group(function () {
         Route::resource('artists', AdminArtistController::class);
         Route::resource('albums', AdminAlbumController::class);
+        Route::resource('tracks', AdminTrackController::class);
     });
 });

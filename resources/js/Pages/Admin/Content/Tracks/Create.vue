@@ -1,9 +1,9 @@
 <template>
     <div>
-        <PageHeader title="Create album"></PageHeader>
+        <PageHeader title="Create track"></PageHeader>
 
         <div class="wrapper">
-            <AlbumGeneralForm
+            <GeneralForm
                 :form="form"
                 :errors="errors"
                 @submit="sendGeneralForm"
@@ -14,14 +14,15 @@
 
 <script>
 import PageHeader from '@/Components/Common/PageHeader';
-import AlbumGeneralForm from '@/Components/Admin/Content/Albums/GeneralForm';
+import GeneralForm from '@/Components/Admin/Content/Tracks/GeneralForm';
 import { Inertia } from '@inertiajs/inertia';
 
 export default {
-    name: 'AdminContentAlbumCreate',
+    name: 'AdminContentTrackCreate',
     components: {
         PageHeader,
-        AlbumGeneralForm
+        OButtonSubmit,
+        GeneralForm,
     },
     props: {
         errors: Object,
@@ -31,13 +32,17 @@ export default {
             form: this.$inertia.form({
                 title: null,
                 alternative_title: null,
+                secondary_title: null,
+                tags: null,
+                duration: null,
                 cover: null,
+                asset: null,
             }),
         }
     },
     methods: {
         sendGeneralForm() {
-            Inertia.post(this.$route('admin.content.albums.store'), this.form);
+            Inertia.post(this.$route('admin.content.tracks.store'), this.form);
         }
     }
 }

@@ -11,7 +11,7 @@
 
         <form @submit.prevent="submitForm">
             <label for="username">Username:</label>
-            <input id="username" v-model="form.name" />
+            <input id="username" v-model="form.name" type="text" />
 
             <label for="password">Password:</label>
             <input id="password" v-model="form.password" type="password" />

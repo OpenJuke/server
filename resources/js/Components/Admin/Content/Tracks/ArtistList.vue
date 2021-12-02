@@ -26,7 +26,7 @@
 import OButton from '@/Components/Common/OButton';
 
 export default {
-    name: 'AlbumArtistList',
+    name: 'TrackArtistList',
     components: {
         OButton
     },

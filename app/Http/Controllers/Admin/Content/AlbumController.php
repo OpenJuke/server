@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Models\Track;
+use App\Models\Artist;
 use App\Models\Album;
 
 class AlbumController extends Controller
@@ -26,7 +28,9 @@ class AlbumController extends Controller
     public function edit($id)
     {
         return Inertia::render('Admin/Content/Albums/Edit', [
-            'album' => Album::with('artists', 'tracks')->findOrFail($id)
+            'album' => Album::with('artists', 'tracks', 'tracks.artists')->findOrFail($id),
+            'artists' => Artist::all(),
+            'tracks' => Track::all()
         ]);
     }
 
@@ -37,12 +41,11 @@ class AlbumController extends Controller
             'cover' => 'file|nullable'
         ]);
 
-        $cover = null;
-        if($request->file('cover') != null) {
-            $cover = $this->createCover($request->file('cover'));
-        }
-
-        $albumService->create($validated['title'], $validated['alternative_title'], $cover);
+        $albumService->create(
+            $validated['title'],
+            $validated['alternative_title'],
+            $request->file('cover')
+        );
 
         return Redirect::route('admin.content.albums.index');
     }
@@ -54,12 +57,12 @@ class AlbumController extends Controller
             'cover' => 'file|nullable'
         ]);
 
-        $cover = null;
-        if($request->file('cover') != null) {
-            $cover = $this->createCover($request->file('cover'));
-        }
-
-        $albumService->update($id, $validated['title'], $validated['alternative_title'], $cover);
+        $albumService->update(
+            $id,
+            $validated['title'],
+            $validated['alternative_title'],
+            $request->file('cover')
+        );
 
         return Redirect::route('admin.content.albums.index');
     }
@@ -68,23 +71,5 @@ class AlbumController extends Controller
         $albumService->destroy($id);
 
         return Redirect::route('admin.content.albums.index');
-    }
-
-    public function createCover($file) {
-        $coverSize = 256;
-
-        $filePath = $file->getPathName();
-        $fileType = $file->getMimeType();
-
-        list($sourceWidth, $sourceHeight) = getimagesize($filePath);
-        $thumbnailData = imagecreatetruecolor($coverSize, $coverSize);
-        $sourceData = imagecreatefromstring(file_get_contents($filePath));
-        imagecopyresampled($thumbnailData, $sourceData, 0, 0, 0, 0, $coverSize, $coverSize, $sourceWidth, $sourceHeight);
-
-        ob_start();
-        imagejpeg($thumbnailData);
-        $finalData = ob_get_clean();
-
-        return 'data:' . $fileType . ';base64,' . base64_encode($finalData);
     }
 }
