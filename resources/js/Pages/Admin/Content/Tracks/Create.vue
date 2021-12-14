@@ -21,7 +21,6 @@ export default {
     name: 'AdminContentTrackCreate',
     components: {
         PageHeader,
-        OButtonSubmit,
         GeneralForm,
     },
     props: {

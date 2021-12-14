@@ -16,7 +16,7 @@ class UserCreate extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        if($userService->create($name, $email, $password)) {
+        if($userService->create($name, $email, $password, null)) {
             return Command::SUCCESS;
         } else {
             return Command::FAILURE;

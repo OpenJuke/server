@@ -26,7 +26,7 @@ class RegisterController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = $userService->create($validated['name'], $validated['email'], $validated['password']);
+        $user = $userService->create($validated['name'], $validated['email'], $validated['password'], null);
 
         Auth::login($user);
 
